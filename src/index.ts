@@ -7,7 +7,7 @@ const DEFAULT_OPTIONS = {
   module: 'modules'
 };
 
-export default class {
+export default class ServiceReactRoute{
   private options;
 
   public static getInstance(inOptions: IOptions) {
@@ -23,25 +23,29 @@ export default class {
     this.options = { ...DEFAULT_OPTIONS, ...inOptions };
   }
 
-  push(inUrl, inData) {
+  public push(inUrl, inData) {
     this.history.push({
       pathname: inUrl,
       state: inData
     });
   }
 
-  replace(inUrl, inData) {
+  public replace(inUrl, inData) {
     this.history.replace({
       pathname: inUrl,
       state: inData
     });
   }
 
-  to(inKey, inData) {
+  public to(inKey, inData) {
     this.push(`/${this.options.module}/${inKey}`, inData);
   }
 
-  back() {
+  public back() {
     this.history.goBack();
+  }
+
+  public forward() {
+    this.history.forward();
   }
 }
