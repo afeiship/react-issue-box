@@ -12,3 +12,4 @@ gulpfile.js
 .prettierrc
 .release-it.json
 tsconfig.json
+jest.config.js
