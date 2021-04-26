@@ -1,13 +1,17 @@
+import nx from '@jswork/next';
+
 interface IOptions {
-  context: any;
+  context?: any;
   module: string;
+  type: 'hash' | 'browser';
 }
 
-const DEFAULT_OPTIONS = {
-  module: 'modules'
+const DEFAULT_OPTIONS: IOptions = {
+  module: 'modules',
+  type: 'hash'
 };
 
-export default class ServiceReactRoute{
+export default class ServiceReactRoute {
   private options;
 
   public static getInstance(inOptions: IOptions) {
@@ -17,6 +21,10 @@ export default class ServiceReactRoute{
   get history() {
     const { history } = this.options.context;
     return history;
+  }
+
+  get pathname() {
+    return location.hash.slice(1);
   }
 
   constructor(inOptions: IOptions) {
