@@ -49,6 +49,12 @@ export default class ServiceReactRoute {
     this.current = null; //
   }
 
+  public inject(inProps) {
+    setTimeout(() => {
+      this.current = inProps;
+    }, 0);
+  }
+
   public push(inUrl, inData) {
     this.history.push({
       pathname: inUrl,
