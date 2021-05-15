@@ -13,6 +13,7 @@ const DEFAULT_OPTIONS: IOptions = {
 
 export default class ServiceReactRoute {
   private options;
+  private current;
 
   public static getInstance(inOptions: IOptions) {
     return new this(inOptions);
@@ -27,8 +28,17 @@ export default class ServiceReactRoute {
     return location.hash.slice(1);
   }
 
+  get path() {
+    return nx.get(this.current, 'match.path');
+  }
+
+  get params() {
+    return nx.get(this.current, 'match.params');
+  }
+
   constructor(inOptions: IOptions) {
     this.options = { ...DEFAULT_OPTIONS, ...inOptions };
+    this.current = null; //
   }
 
   public push(inUrl, inData) {
