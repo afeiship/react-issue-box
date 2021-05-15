@@ -24,8 +24,16 @@ export default class ServiceReactRoute {
     return history;
   }
 
+  get component() {
+    return nx.get(this.current, 'route.component');
+  }
+
   get pathname() {
-    return location.hash.slice(1);
+    return nx.get(this.current, 'location.pathname');
+  }
+
+  get url() {
+    return nx.get(this.current, 'match.url');
   }
 
   get path() {
