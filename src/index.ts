@@ -55,18 +55,20 @@ export default class ServiceReactRoute {
     }, 0);
   }
 
+  public route(inAction, inUrl, inData) {
+    const hasSearch = inUrl.includes('?');
+    const [pathname, search] = inUrl.split('?');
+    const args = { pathname, search: null, state: null };
+    hasSearch ? (args.search = search) : (args.state = inData);
+    return this.history[inAction](args);
+  }
+
   public push(inUrl, inData) {
-    this.history.push({
-      pathname: inUrl,
-      state: inData
-    });
+    return this.route('push', inUrl, inData);
   }
 
   public replace(inUrl, inData) {
-    this.history.replace({
-      pathname: inUrl,
-      state: inData
-    });
+    return this.route('replace', inUrl, inData);
   }
 
   public to(inKey, inData) {
