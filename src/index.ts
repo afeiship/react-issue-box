@@ -1,12 +1,13 @@
 import nx from '@jswork/next';
 
-interface IOptions {
-  context?: any;
-  module: string;
-  type: 'hash' | 'browser';
+export interface IOptions {
+  context: any;
+  type?: 'hash' | 'browser';
+  module?: string;
 }
 
 const DEFAULT_OPTIONS: IOptions = {
+  context: null,
   module: 'modules',
   type: 'hash'
 };
