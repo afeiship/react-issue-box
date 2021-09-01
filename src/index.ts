@@ -18,7 +18,7 @@ const DEFAULT_OPTIONS: IOptions = {
 
 export default class ServiceReactRoute {
   private options;
-  private current: React.Ref<Router> = React.createRef();
+  private current;
 
   public static getInstance(inOptions: IOptions) {
     return new this(inOptions);
@@ -55,7 +55,7 @@ export default class ServiceReactRoute {
 
   constructor(inOptions: IOptions) {
     this.options = { ...DEFAULT_OPTIONS, ...inOptions };
-    this.current = null;
+    this.current = this.options.context.current;
   }
 
   public inject(inProps) {
