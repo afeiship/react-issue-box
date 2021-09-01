@@ -13,6 +13,39 @@
 npm install @jswork/service-react-route
 ```
 
+## usage
+```tsx
+import React from 'react';
+import ServiceReactRoute from '@jswork/service-react-route';
+import { routes } from '@/shared/routes';
+
+@reduxRender('root', { prefix: 'react-spa' })
+export default class extends ReduxAppBase {
+  static initialState(inStore) {
+    return {
+      memory: {
+        orders: {},
+        users: {},
+        login: { username: 'afei', password: '123123' },
+      },
+    };
+  }
+
+  private routerRef: React.Ref<Router> = React.createRef();
+
+  componentDidMount() {
+    nx.$route = ServiceReactRoute.getInstance({ context: this.routerRef });
+  }
+
+  render() {
+    const {
+      login: { username },
+    } = nx.$memory;
+    return <Router ref={this.routerRef}>{renderRoutes(routes)}</Router>
+  }
+}
+```
+
 ## license
 
 Code released under [the MIT license](https://github.com/afeiship/service-react-route/blob/master/LICENSE.txt).
