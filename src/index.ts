@@ -4,9 +4,10 @@ import { HashRouter as Router } from 'react-router-dom';
 import nxHashlize from '@jswork/next-hashlize';
 
 export interface IOptions {
-  context: any;
+  context: React.Ref<Router>;
   type?: 'hash' | 'browser';
   module?: string;
+  onRoute?: () => void;
 }
 
 const DEFAULT_OPTIONS: IOptions = {
