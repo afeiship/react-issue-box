@@ -23,6 +23,11 @@ const DEFAULT_OPTIONS: IOptions = {
 export default class ServiceReactRoute {
   private readonly options;
 
+  /**
+   * 代替 new 方法，返回一个新的实例
+   * @param inOptions
+   * @returns
+   */
   public static getInstance(inOptions: IOptions) {
     return new this(inOptions);
   }
