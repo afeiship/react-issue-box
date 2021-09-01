@@ -1,4 +1,7 @@
+import React from 'react';
 import nx from '@jswork/next';
+import { HashRouter as Router } from 'react-router-dom';
+import nxHashlize from '@jswork/next-hashlize';
 
 export interface IOptions {
   context: any;
@@ -14,7 +17,7 @@ const DEFAULT_OPTIONS: IOptions = {
 
 export default class ServiceReactRoute {
   private options;
-  private current;
+  private current: React.Ref<Router> = React.createRef();
 
   public static getInstance(inOptions: IOptions) {
     return new this(inOptions);
@@ -45,9 +48,13 @@ export default class ServiceReactRoute {
     return nx.get(this.current, 'match.params');
   }
 
+  get qs() {
+    return nxHashlize(location.hash);
+  }
+
   constructor(inOptions: IOptions) {
     this.options = { ...DEFAULT_OPTIONS, ...inOptions };
-    this.current = null; //
+    this.current = null;
   }
 
   public inject(inProps) {
