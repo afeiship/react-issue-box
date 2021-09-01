@@ -11,7 +11,6 @@ export interface IOptions {
   type?: 'hash' | 'browser';
   module?: string;
   onRoute?: (action: string, args: any[]) => void;
-  onChange?: (listener: H.LocationListener<H.LocationState>) => H.UnregisterCallback;
 }
 
 const DEFAULT_OPTIONS: IOptions = {
@@ -23,7 +22,6 @@ const DEFAULT_OPTIONS: IOptions = {
 
 export default class ServiceReactRoute {
   private readonly options;
-  private readonly unsubstribeFn: H.UnregisterCallback;
 
   public static getInstance(inOptions: IOptions) {
     return new this(inOptions);
@@ -86,7 +84,6 @@ export default class ServiceReactRoute {
 
   constructor(inOptions: IOptions) {
     this.options = { ...DEFAULT_OPTIONS, ...inOptions };
-    this.unsubstribeFn = this.history.listen(this.options.onChange);
   }
 
   private route(inAction, inUrl, inData) {
@@ -96,6 +93,15 @@ export default class ServiceReactRoute {
     hasSearch ? (args.search = search) : (args.state = inData);
     this.options.onRoute(inAction, args);
     return this.history[inAction](args);
+  }
+
+  /**
+   * 监听路由的变化，对应原生的 listen 方法
+   * @param listener
+   * @returns
+   */
+  listen(listener: H.LocationListener<H.LocationState>): H.UnregisterCallback {
+    return this.history.listen(listener);
   }
 
   /**
@@ -150,12 +156,5 @@ export default class ServiceReactRoute {
   public to(inKey, inQs, inData) {
     const url = nxParam(inQs, `/${this.options.module}/${inKey}`);
     this.goto(url, inData);
-  }
-
-  /**
-   * 针对 onChange 的 unsubscribe 方法
-   */
-  public destroy() {
-    this.unsubstribeFn();
   }
 }
