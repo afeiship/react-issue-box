@@ -1,13 +1,8 @@
 import React from 'react';
 import nx from '@jswork/next';
 import { HashRouter as Router } from 'react-router-dom';
+import * as H from 'history';
 import nxHashlize from '@jswork/next-hashlize';
-
-interface RouteArgs {
-  pathname: string;
-  search: any;
-  state: any;
-}
 
 export interface IOptions {
   context: React.Ref<Router>;
@@ -22,36 +17,38 @@ const DEFAULT_OPTIONS: IOptions = {
 };
 
 export default class ServiceReactRoute {
-  private options;
-  private current;
+  private readonly options;
+
+  private get router(): Router {
+    return nx.get(this.options, 'context.current');
+  }
 
   public static getInstance(inOptions: IOptions) {
     return new this(inOptions);
   }
 
-  get history() {
-    const { history } = this.options.context;
-    return history;
+  get history(): H.History<H.LocationState> {
+    return nx.get(this.router, 'history');
   }
 
   get component() {
-    return nx.get(this.current, 'route.component');
+    return nx.get(this.history, 'route.component');
   }
 
   get pathname() {
-    return nx.get(this.current, 'location.pathname');
+    return nx.get(this.history, 'location.pathname');
   }
 
   get url() {
-    return nx.get(this.current, 'match.url');
+    return nx.get(this.history, 'match.url');
   }
 
   get path() {
-    return nx.get(this.current, 'match.path');
+    return nx.get(this.history, 'match.path');
   }
 
   get params() {
-    return nx.get(this.current, 'match.params');
+    return nx.get(this.history, 'match.params');
   }
 
   get qs() {
@@ -60,13 +57,6 @@ export default class ServiceReactRoute {
 
   constructor(inOptions: IOptions) {
     this.options = { ...DEFAULT_OPTIONS, ...inOptions };
-    this.current = this.options.context.current;
-  }
-
-  public inject(inProps) {
-    setTimeout(() => {
-      this.current = inProps;
-    }, 0);
   }
 
   public route(inAction, inUrl, inData) {
@@ -94,6 +84,6 @@ export default class ServiceReactRoute {
   }
 
   public forward() {
-    this.history.forward();
+    this.history.goForward();
   }
 }
