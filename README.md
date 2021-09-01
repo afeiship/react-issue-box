@@ -19,18 +19,7 @@ import React from 'react';
 import ServiceReactRoute from '@jswork/service-react-route';
 import { routes } from '@/shared/routes';
 
-@reduxRender('root', { prefix: 'react-spa' })
-export default class extends ReduxAppBase {
-  static initialState(inStore) {
-    return {
-      memory: {
-        orders: {},
-        users: {},
-        login: { username: 'afei', password: '123123' },
-      },
-    };
-  }
-
+export class App extends React.Component {
   private routerRef: React.Ref<Router> = React.createRef();
 
   componentDidMount() {
@@ -38,9 +27,6 @@ export default class extends ReduxAppBase {
   }
 
   render() {
-    const {
-      login: { username },
-    } = nx.$memory;
     return <Router ref={this.routerRef}>{renderRoutes(routes)}</Router>
   }
 }
