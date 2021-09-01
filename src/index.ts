@@ -3,11 +3,16 @@ import nx from '@jswork/next';
 import { HashRouter as Router } from 'react-router-dom';
 import nxHashlize from '@jswork/next-hashlize';
 
+interface RouteArgs {
+  pathname: string;
+  search: any;
+  state: any;
+}
+
 export interface IOptions {
   context: React.Ref<Router>;
   type?: 'hash' | 'browser';
   module?: string;
-  onRoute?: () => void;
 }
 
 const DEFAULT_OPTIONS: IOptions = {
