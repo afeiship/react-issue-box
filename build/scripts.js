@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   const gulp = require('gulp');
@@ -7,11 +7,13 @@
   });
   const tsconfig = require('../tsconfig.json');
 
-  gulp.task('scripts', function() {
+  gulp.task('scripts', function () {
     return gulp
       .src('src/index.ts')
+      .pipe($.sourcemaps.init())
       .pipe($.jswork.pkgHeader())
       .pipe($.typescript(tsconfig.compilerOptions))
+      .pipe($.sourcemaps.write())
       .pipe(gulp.dest('dist'))
       .pipe($.size({ title: '[ minimize size ]:' }));
   });

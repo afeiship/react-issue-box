@@ -6,12 +6,24 @@ import nxHashlize from '@jswork/next-hashlize';
 import nxParam from '@jswork/next-param';
 import noop from '@jswork/noop';
 
+export enum ROUTER_ACTION {
+  push = 'push',
+  replace = 'replace'
+}
+
+export enum ROUTER_TYPE {
+  hash = 'hash',
+  browser = 'browser'
+}
+
 export interface IOptions {
   context: React.Ref<Router>;
-  type?: 'hash' | 'browser';
+  type?:  keyof typeof ROUTER_TYPE;
   module?: string;
   onRoute?: (action: string, args: any[]) => void;
 }
+
+export type RouteAction = keyof typeof ROUTER_ACTION;
 
 const DEFAULT_OPTIONS: IOptions = {
   context: null,
@@ -36,7 +48,7 @@ export default class ServiceReactRoute {
    * 得到 react-router 的 history 对象
    */
   get history(): H.History<H.LocationState> {
-    return nx.get(this.options, 'current.context.history');
+    return nx.get(this.options, 'context.current.history');
   }
 
   /**
@@ -50,7 +62,7 @@ export default class ServiceReactRoute {
     this.options = { ...DEFAULT_OPTIONS, ...inOptions };
   }
 
-  private route(inAction: string, inUrl: string, inData: any) {
+  private route(inAction: RouteAction, inUrl: string, inData: any) {
     const hasSearch = inUrl.includes('?');
     const [pathname, search] = inUrl.split('?');
     const args = { pathname, search: '', state: null };
@@ -75,7 +87,7 @@ export default class ServiceReactRoute {
    * @returns
    */
   public push(inUrl, inData) {
-    return this.route('push', inUrl, inData);
+    return this.route(ROUTER_ACTION.push, inUrl, inData);
   }
 
   /**
@@ -85,16 +97,7 @@ export default class ServiceReactRoute {
    * @returns
    */
   public replace(inUrl, inData) {
-    return this.route('replace', inUrl, inData);
-  }
-
-  /**
-   * react-router 的 原生 push 方法增强，前面自动加 module 的配置 string
-   * @param inKey
-   * @param inData
-   */
-  public goto(inKey, inData) {
-    this.push(`/${this.options.module}/${inKey}`, inData);
+    return this.route(ROUTER_ACTION.replace, inUrl, inData);
   }
 
   /**
@@ -112,13 +115,15 @@ export default class ServiceReactRoute {
   }
 
   /**
-   * 类似于 goto，不过，第2个参数是 queryString，偏向于有 querystring 的情况
-   * @param inKey
-   * @param inQs
-   * @param inData
+   * 短 push/replace 跳转，不用带 module 参数
+   * @param inKey 要跳转到的路由
+   * @param inQs  要添加的参数
+   * @param inData  要添加的 state
+   * @param inAction  跳转的方式，默认为 push
    */
-  public to(inKey, inQs, inData) {
+  public to(inKey: string, inQs: any, inData: any, inAction: RouteAction) {
+    const action = inAction || ROUTER_ACTION.push;
     const url = nxParam(inQs, `/${this.options.module}/${inKey}`);
-    this.goto(url, inData);
+    this[action](url, inData);
   }
 }
