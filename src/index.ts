@@ -18,7 +18,7 @@ export default class ServiceReactRoute {
   private readonly options;
   private latestUrl;
   private get eventBusTarget() {
-    return { old: this.latestUrl, current: location.href };
+    return { qs: this.qs, previous: this.latestUrl, current: location.href };
   }
 
   /**
