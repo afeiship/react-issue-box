@@ -17,6 +17,9 @@ const DEFAULT_OPTIONS: Options = {
 export default class ServiceReactRoute {
   private readonly options;
   private latestUrl;
+  private get eventBusTarget() {
+    return { old: this.latestUrl, current: location.href };
+  }
 
   /**
    * 代替 new 方法，返回一个新的实例
@@ -71,14 +74,10 @@ export default class ServiceReactRoute {
     const eventBus = this.options.eventBus;
     const eventName = 'app.url-change';
     this.latestUrl = null;
-    const target = () => {
-      return { old: this.latestUrl, current: location.href };
-    };
-
     if (eventBus) {
-      eventBus.emit(eventName, target);
+      eventBus.emit(eventName, this.eventBusTarget);
       this.history.listen(() => {
-        eventBus.emit(eventName, target);
+        eventBus.emit(eventName, this.eventBusTarget);
         this.latestUrl = location.href;
       });
     }

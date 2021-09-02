@@ -13,3 +13,4 @@ gulpfile.js
 .release-it.json
 tsconfig.json
 jest.config.js
+docs
