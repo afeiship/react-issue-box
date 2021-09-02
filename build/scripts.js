@@ -9,7 +9,7 @@
 
   gulp.task('scripts', function () {
     return gulp
-      .src('src/index.ts')
+      .src('src/*.ts')
       .pipe($.sourcemaps.init())
       .pipe($.jswork.pkgHeader())
       .pipe($.typescript(tsconfig.compilerOptions))

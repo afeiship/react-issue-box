@@ -5,25 +5,7 @@ import * as H from 'history';
 import nxHashlize from '@jswork/next-hashlize';
 import nxParam from '@jswork/next-param';
 import noop from '@jswork/noop';
-
-export enum ROUTER_ACTION {
-  push = 'push',
-  replace = 'replace'
-}
-
-export enum ROUTER_TYPE {
-  hash = 'hash',
-  browser = 'browser'
-}
-
-export interface Options {
-  context: React.Ref<Router>;
-  type?: keyof typeof ROUTER_TYPE;
-  module?: string;
-  onRoute?: (action: string, args: any[]) => void;
-}
-
-export type RouteAction = keyof typeof ROUTER_ACTION;
+import { ROUTER_ACTION, Options, RouteAction } from './type';
 
 const DEFAULT_OPTIONS: Options = {
   context: null,
@@ -34,6 +16,7 @@ const DEFAULT_OPTIONS: Options = {
 
 export default class ServiceReactRoute {
   private readonly options;
+  private latestUrl;
 
   /**
    * 代替 new 方法，返回一个新的实例
@@ -82,11 +65,32 @@ export default class ServiceReactRoute {
   }
 
   /**
+   * 向 eventBus 对象上 emit 一个名为 app.url-change 的事件
+   */
+  private handleEventBus() {
+    const eventBus = this.options.eventBus;
+    const eventName = 'app.url-change';
+    this.latestUrl = null;
+    const target = () => {
+      return { old: this.latestUrl, current: location.href };
+    };
+
+    if (eventBus) {
+      eventBus.emit(eventName, target);
+      this.history.listen(() => {
+        eventBus.emit(eventName, target);
+        this.latestUrl = location.href;
+      });
+    }
+  }
+
+  /**
    * 构造方法
    * @param inOptions
    */
   constructor(inOptions: Options) {
     this.options = { ...DEFAULT_OPTIONS, ...inOptions };
+    this.handleEventBus();
   }
 
   /**
