@@ -36,48 +36,13 @@ export default class ServiceReactRoute {
    * 得到当前的路由的组件的 router 实例 (routerRef.current)
    */
   get router(): Router {
-    return nx.get(this.options, 'context.current');
+    return nx.get(this.options, 'context');
   }
   /**
    * 得到 react-router 的 history 对象
    */
   get history(): H.History<H.LocationState> {
     return nx.get(this.router, 'history');
-  }
-
-  /**
-   * 得到当前的路由
-   */
-  get component() {
-    return nx.get(this.history, 'route.component');
-  }
-
-  /**
-   * 得到当前的路由的组件的 match.pathname
-   */
-  get pathname() {
-    return nx.get(this.history, 'location.pathname');
-  }
-
-  /**
-   * 得到当前的路由的组件的 match.url
-   */
-  get url() {
-    return nx.get(this.history, 'match.url');
-  }
-
-  /**
-   * 得到当前的路由的组件的 match.path
-   */
-  get path() {
-    return nx.get(this.history, 'match.path');
-  }
-
-  /**
-   *
-   */
-  get params() {
-    return nx.get(this.history, 'match.params');
   }
 
   /**
