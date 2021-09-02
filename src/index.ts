@@ -91,10 +91,10 @@ export default class ServiceReactRoute {
     this.options = { ...DEFAULT_OPTIONS, ...inOptions };
   }
 
-  private route(inAction, inUrl, inData) {
+  private route(inAction: string, inUrl: string, inData: any) {
     const hasSearch = inUrl.includes('?');
     const [pathname, search] = inUrl.split('?');
-    const args = { pathname, search: null, state: null };
+    const args = { pathname, search: '', state: null };
     hasSearch ? (args.search = search) : (args.state = inData);
     this.options.onRoute(inAction, args);
     return this.history[inAction](args);
