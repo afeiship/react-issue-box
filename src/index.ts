@@ -97,7 +97,7 @@ export default class ServiceReactRoute {
    * @param inData
    * @returns
    */
-  public push(inUrl, inData) {
+  public push(inUrl: string, inData) {
     return this.route(ROUTER_ACTION.push, inUrl, inData);
   }
 
@@ -107,7 +107,7 @@ export default class ServiceReactRoute {
    * @param inData
    * @returns
    */
-  public replace(inUrl, inData) {
+  public replace(inUrl: string, inData) {
     return this.route(ROUTER_ACTION.replace, inUrl, inData);
   }
 
