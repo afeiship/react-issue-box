@@ -16,16 +16,16 @@ export enum ROUTER_TYPE {
   browser = 'browser'
 }
 
-export interface IOptions {
+export interface Options {
   context: React.Ref<Router>;
-  type?:  keyof typeof ROUTER_TYPE;
+  type?: keyof typeof ROUTER_TYPE;
   module?: string;
   onRoute?: (action: string, args: any[]) => void;
 }
 
 export type RouteAction = keyof typeof ROUTER_ACTION;
 
-const DEFAULT_OPTIONS: IOptions = {
+const DEFAULT_OPTIONS: Options = {
   context: null,
   module: 'modules',
   type: 'hash',
@@ -40,7 +40,7 @@ export default class ServiceReactRoute {
    * @param inOptions
    * @returns
    */
-  public static getInstance(inOptions: IOptions) {
+  public static getInstance(inOptions: Options) {
     return new this(inOptions);
   }
 
@@ -58,10 +58,13 @@ export default class ServiceReactRoute {
     return nxHashlize(location.hash);
   }
 
-  constructor(inOptions: IOptions) {
-    this.options = { ...DEFAULT_OPTIONS, ...inOptions };
-  }
-
+  /**
+   * 内部方法，有关跳转最终都会走到这个方法里来
+   * @param inAction
+   * @param inUrl
+   * @param inData
+   * @returns
+   */
   private route(inAction: RouteAction, inUrl: string, inData: any) {
     const hasSearch = inUrl.includes('?');
     const [pathname, search] = inUrl.split('?');
@@ -69,6 +72,14 @@ export default class ServiceReactRoute {
     hasSearch ? (args.search = search) : (args.state = inData);
     this.options.onRoute(inAction, args);
     return this.history[inAction](args);
+  }
+
+  /**
+   * 构造方法
+   * @param inOptions
+   */
+  constructor(inOptions: Options) {
+    this.options = { ...DEFAULT_OPTIONS, ...inOptions };
   }
 
   /**

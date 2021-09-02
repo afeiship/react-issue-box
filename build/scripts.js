@@ -13,7 +13,7 @@
       .pipe($.sourcemaps.init())
       .pipe($.jswork.pkgHeader())
       .pipe($.typescript(tsconfig.compilerOptions))
-      .pipe($.sourcemaps.write())
+      .pipe($.sourcemaps.write('.'))
       .pipe(gulp.dest('dist'))
       .pipe($.size({ title: '[ minimize size ]:' }));
   });
