@@ -32,6 +32,9 @@ export class App extends React.Component {
 }
 ```
 
+## documentation
+- https://afeiship.github.io/service-react-route/
+
 ## license
 
 Code released under [the MIT license](https://github.com/afeiship/service-react-route/blob/master/LICENSE.txt).
