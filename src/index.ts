@@ -48,7 +48,7 @@ export default class ServiceReactRoute {
    * 取得当前页面的 pathname, 对应 history 里的 pathname
    */
   get pathname() {
-    return nx.get(this.history, 'pathname');
+    return nx.get(this.history, 'location.pathname');
   }
 
   /**
