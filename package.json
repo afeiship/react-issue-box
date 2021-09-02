@@ -1,6 +1,6 @@
 {
   "name": "@jswork/service-react-route",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "React router route service.",
   "main": "dist/index.js",
   "scripts": {
