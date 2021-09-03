@@ -1,6 +1,4 @@
-import React from 'react';
 import nx from '@jswork/next';
-import { HashRouter as Router } from 'react-router-dom';
 import * as H from 'history';
 import nxHashlize from '@jswork/next-hashlize';
 import nxParam from '@jswork/next-param';
@@ -72,7 +70,7 @@ export default class ServiceReactRoute {
    * 向 eventBus 对象上 emit 一个名为 app.url-change 的事件
    */
   private handleEventBus() {
-    const { eventBus, eventName } = this.options.eventBus;
+    const { eventBus, eventName } = this.options;
     if (eventBus) {
       eventBus.emit(eventName, this.eventBusTarget);
       this.history.listen(() => {
