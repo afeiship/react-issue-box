@@ -17,6 +17,7 @@ export enum ROUTER_TYPE {
 export interface Options {
   context: React.Ref<Router>;
   eventBus?: EventBus;
+  eventName?: string;
   type?: keyof typeof ROUTER_TYPE;
   module?: string;
   onRoute?: (action: string, args: any[]) => void;

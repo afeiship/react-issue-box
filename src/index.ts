@@ -9,6 +9,7 @@ import { ROUTER_ACTION, Options, RouteAction } from './type';
 
 const DEFAULT_OPTIONS: Options = {
   context: null,
+  eventName: 'app.url-change',
   module: 'modules',
   type: 'hash',
   onRoute: noop
@@ -16,7 +17,7 @@ const DEFAULT_OPTIONS: Options = {
 
 export default class ServiceReactRoute {
   private readonly options;
-  private latestUrl;
+  private latestUrl: string | null = null;
   private get eventBusTarget() {
     return { qs: this.qs, previous: this.latestUrl, current: location.href };
   }
@@ -71,9 +72,7 @@ export default class ServiceReactRoute {
    * 向 eventBus 对象上 emit 一个名为 app.url-change 的事件
    */
   private handleEventBus() {
-    const eventBus = this.options.eventBus;
-    const eventName = 'app.url-change';
-    this.latestUrl = null;
+    const { eventBus, eventName } = this.options.eventBus;
     if (eventBus) {
       eventBus.emit(eventName, this.eventBusTarget);
       this.history.listen(() => {
