@@ -78,6 +78,7 @@ export default class ServiceReactRoute {
         changed && eventBus.emit(eventName, this.eventBusTarget);
         this.latestUrl = location.href;
       });
+      this.latestUrl = location.href;
     }
   }
 
