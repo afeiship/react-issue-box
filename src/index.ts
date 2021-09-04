@@ -74,7 +74,8 @@ export default class ServiceReactRoute {
     if (eventBus) {
       eventBus.emit(eventName, this.eventBusTarget);
       this.history.listen(() => {
-        eventBus.emit(eventName, this.eventBusTarget);
+        const changed = this.latestUrl !== location.href;
+        changed && eventBus.emit(eventName, this.eventBusTarget);
         this.latestUrl = location.href;
       });
     }
