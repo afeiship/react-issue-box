@@ -29,9 +29,12 @@
     //font-family: cursive;
   }
 
+  &[data-shadowable="true"] {
+    box-shadow: var(--react-issue-box-shadow);
+  }
+
   &[data-hoverable="true"] {
     &:hover {
-      box-shadow: var(--react-issue-box-shadow);
       background-position: 100% 100%;
     }
   }
