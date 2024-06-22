@@ -1,5 +1,6 @@
 .react-issue-box {
   --react-issue-box-padding: 5px;
+  --react-issue-box-content-padding: 14px;
   --react-issue-box-bg-color: #fff;
   --react-issue-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 
@@ -26,6 +27,7 @@
   }
 
   &__content {
+    padding: var(--react-issue-box-content-padding);
     //font-family: cursive;
   }
 
