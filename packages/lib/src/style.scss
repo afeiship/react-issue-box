@@ -1,0 +1,38 @@
+.react-issue-box {
+  --react-issue-box-padding: 5px;
+  --react-issue-box-bg-color: #fff;
+  --react-issue-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
+  padding: var(--react-issue-box-padding);
+  transition: 0.3s;
+  background-image: repeating-linear-gradient(
+      45deg,
+      #e8544d,
+      #e8544d 10px,
+      #fff 10px,
+      #fff 20px,
+      #75adf8 20px,
+      #75adf8 30px,
+      #fff 30px,
+      #fff 40px
+  );
+  background-size: 101% 101%;
+
+  &__inner {
+    background: var(--react-issue-box-bg-color);
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  &__content {
+    //font-family: cursive;
+  }
+
+  &[data-hoverable="true"] {
+    &:hover {
+      box-shadow: var(--react-issue-box-shadow);
+      background-position: 100% 100%;
+    }
+  }
+}
